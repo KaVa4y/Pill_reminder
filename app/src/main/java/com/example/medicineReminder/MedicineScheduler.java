@@ -28,13 +28,26 @@ public class MedicineScheduler {
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), pendingIntent);
+        // Проверка разрешения на точные будильники (Android 12+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (alarmManager.canScheduleExactAlarms()) {
+                // Разрешение есть, устанавливаем точный будильник
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), pendingIntent);
+                Log.d(TAG, "Точный будильник установлен на: " + time.getTime());
+            } else {
+                // Разрешения нет - устанавливаем неточный будильник (может сработать с небольшой задержкой)
+                Log.w(TAG, "Точное разрешение на будильник отсутствует. Установка обычного будильника.");
+                alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), pendingIntent);
+            }
         } else {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), pendingIntent);
+            // Для старых версий Android
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), pendingIntent);
+            } else {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), pendingIntent);
+            }
+            Log.d(TAG, "Будильник установлен на: " + time.getTime());
         }
-
-        Log.d(TAG, "Будильник установлен на: " + time.getTime());
     }
 
     public static void cancelAlarm(Context context, int notificationId) {
