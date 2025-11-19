@@ -1,15 +1,16 @@
 package com.example.medicineReminder;
 
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.timepicker.MaterialTimePicker;
+import com.google.android.material.timepicker.TimeFormat;
 
 import java.util.Calendar;
 
@@ -18,8 +19,8 @@ public class AddMedicineActivity extends AppCompatActivity {
     private TextInputEditText editTextMedicineName;
     private TextInputEditText editTextDosage;
     private TextView textViewSelectedTime;
-    private Button btnSetTime;
-    private Button btnSave;
+    private MaterialButton btnSetTime;
+    private MaterialButton btnSave;
 
     private Calendar selectedTime;
     private boolean timeSelected = false;
@@ -47,24 +48,25 @@ public class AddMedicineActivity extends AppCompatActivity {
     }
 
     private void showTimePicker() {
-        Calendar calendar = Calendar.getInstance();
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
+        MaterialTimePicker picker = new MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_24H)
+                .setHour(12)
+                .setMinute(0)
+                .setTitleText("Выберите время")
+                .build();
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
-                (view, hourOfDay, minute1) -> {
-                    selectedTime = Calendar.getInstance();
-                    selectedTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                    selectedTime.set(Calendar.MINUTE, minute1);
-                    selectedTime.set(Calendar.SECOND, 0);
+        picker.addOnPositiveButtonClickListener(dialog -> {
+            selectedTime = Calendar.getInstance();
+            selectedTime.set(Calendar.HOUR_OF_DAY, picker.getHour());
+            selectedTime.set(Calendar.MINUTE, picker.getMinute());
+            selectedTime.set(Calendar.SECOND, 0);
 
-                    String timeStr = String.format("%02d:%02d", hourOfDay, minute1);
-                    textViewSelectedTime.setText("Время: " + timeStr);
-                    timeSelected = true;
-                },
-                hour, minute, true);
+            String timeStr = String.format("%02d:%02d", picker.getHour(), picker.getMinute());
+            textViewSelectedTime.setText("Время: " + timeStr);
+            timeSelected = true;
+        });
 
-        timePickerDialog.show();
+        picker.show(getSupportFragmentManager(), "TAG_PICKER");
     }
 
     private void saveMedicine() {
@@ -79,6 +81,14 @@ public class AddMedicineActivity extends AppCompatActivity {
         if (!timeSelected) {
             Toast.makeText(this, "Выберите время", Toast.LENGTH_SHORT).show();
             return;
+        }
+
+        // Android по умолчанию поддерживает ввод кириллицы
+        // Никаких дополнительных настроек не требуется
+        // Проверим, что строка содержит кириллицу (для демонстрации)
+        // Это не обязательно, просто проверка
+        if (!name.matches(".*[а-яА-ЯёЁ].*")) {
+            // Toast.makeText(this, "Для лучшего опыта используйте кириллицу", Toast.LENGTH_SHORT).show();
         }
 
         Intent resultIntent = new Intent();

@@ -32,11 +32,12 @@ public class NotificationService extends Service {
         String contentText = "Примите: " + medicineName + " (" + dosageStr + ")";
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.ic_pill) // Используем иконку
                 .setContentTitle("Напоминание о приёме лекарства")
                 .setContentText(contentText)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setAutoCancel(true);
+                .setAutoCancel(true)
+                .setColor(getResources().getColor(android.R.color.holo_blue_light)); // Цвет уведомления
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify(notificationId, builder.build());
@@ -52,6 +53,7 @@ public class NotificationService extends Service {
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
+            channel.enableVibration(true); // Вибрация
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }

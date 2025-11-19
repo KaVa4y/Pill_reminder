@@ -37,16 +37,18 @@ public class MedicineAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(android.R.layout.simple_list_item_2, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_medicine, parent, false);
         }
 
-        TextView text1 = convertView.findViewById(android.R.id.text1);
-        TextView text2 = convertView.findViewById(android.R.id.text2);
+        TextView textName = convertView.findViewById(R.id.textName);
+        TextView textTime = convertView.findViewById(R.id.textTime);
+        TextView textDosage = convertView.findViewById(R.id.textDosage);
 
         MedicineItem item = medicineList.get(position);
-        text1.setText(item.getName());
+        textName.setText(item.getName());
+        textTime.setText("Время: " + item.getTime().getTime().toString());
         String dosageStr = (item.getDosage() != null && !item.getDosage().isEmpty()) ? item.getDosage() : "Без дозировки";
-        text2.setText("Время: " + item.getTime().getTime().toString() + " | " + dosageStr);
+        textDosage.setText("Дозировка: " + dosageStr);
 
         return convertView;
     }
