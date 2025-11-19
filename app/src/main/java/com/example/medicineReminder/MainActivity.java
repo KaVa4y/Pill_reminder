@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_ADD_MEDICINE = 100;
     private static final int REQUEST_SCHEDULE_EXACT_ALARM = 101;
     private static final int REQUEST_POST_NOTIFICATIONS = 102; // Для Android 13+
-    private static final int REQUEST_SCHEDULE_ALARMS = 103;   // Для Android 15+
 
     private ListView listView;
     private Button btnAdd;

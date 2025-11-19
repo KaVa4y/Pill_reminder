@@ -31,7 +31,6 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginTop="16dp"
-        android:divider="?attr/colorOnSurfaceVariant"
-        android:dividerHeight="1dp" />
+        android:divider="?attr/colorOnSurfaceVariant" />
 
 </LinearLayout>

@@ -7,8 +7,8 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" /> <!-- для будильников -->
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- 👈 ВАЖНО: для уведомлений на Android 13+ -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -19,7 +19,7 @@
         android:theme="@style/Theme.MedicineReminder"
         tools:targetApi="31">
 
-        <!-- ... остальные компоненты ... -->
+        <!-- Главная активность -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -29,15 +29,18 @@
             </intent-filter>
         </activity>
 
+        <!-- Новая активность для добавления напоминания -->
         <activity
             android:name=".AddMedicineActivity"
             android:exported="false" />
 
+        <!-- Receiver для обработки будильников -->
         <receiver
             android:name=".AlarmReceiver"
             android:enabled="true"
             android:exported="false" />
 
+        <!-- Receiver для автозапуска после перезагрузки -->
         <receiver
             android:name=".BootReceiver"
             android:enabled="true"
@@ -47,6 +50,7 @@
             </intent-filter>
         </receiver>
 
+        <!-- Сервис для показа уведомлений -->
         <service
             android:name=".NotificationService"
             android:enabled="true"

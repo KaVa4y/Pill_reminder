@@ -1,10 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="24dp"
     android:viewportWidth="24"
     android:viewportHeight="24"
     android:tint="?attr/colorOnPrimary">
+
+    <!-- Тело таблетки -->
     <path
         android:fillColor="@android:color/white"
-        android:pathData="M18,2H6C4.9,2 4,2.9 4,4v16c0,1.1 0.9,2 2,2h12c1.1,0 2,-0.9 2,-2V4C20,2.9 19.1,2 18,2zM12,19c-2.76,0 -5,-2.24 -5,-5s2.24,-5 5,-5 5,2.24 5,5 -2.24,5 -5,5z"/>
+        android:pathData="M19,7H5C3.9,7 3,7.9 3,9v6c0,1.1 0.9,2 2,2h14c1.1,0 2,-0.9 2,-2V9C21,7.9 20.1,7 19,7zM12,14c-1.1,0 -2,-0.9 -2,-2s0.9,-2 2,-2 2,0.9 2,2 -0.9,2 -2,2z" />
+
+    <!-- Линия разлома (для имитации рассечённой таблетки) -->
+    <path
+        android:pathData="M11,9.5h2v1h-2z" />
+
 </vector>
