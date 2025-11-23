@@ -45,10 +45,8 @@ public class MainActivity extends AppCompatActivity {
         adapter = new MedicineAdapter(this, medicineList);
         listView.setAdapter(adapter);
 
-        // Запрашиваем разрешение на уведомления (Android 13+)
         requestNotificationPermission();
 
-        // Загружаем сохранённые напоминания
         loadMedicines();
 
         btnAdd.setOnClickListener(v -> openAddMedicineActivity());
@@ -69,26 +67,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openAddMedicineActivity() {
-        // Проверяем разрешение на точные будильники (Android 12+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             android.app.AlarmManager alarmManager = (android.app.AlarmManager) getSystemService(Context.ALARM_SERVICE);
             if (!alarmManager.canScheduleExactAlarms()) {
-                // Если разрешение отсутствует, запрашиваем его
                 Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
                 intent.setData(Uri.parse("package:" + getPackageName()));
                 startActivityForResult(intent, REQUEST_SCHEDULE_EXACT_ALARM);
-                return; // Выходим, чтобы не открывать активность до получения разрешения
+                return;
             }
         }
 
-        // Проверка разрешения на будильники (Android 15+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            // На Android 15+ проверка разрешения делается через системные настройки
-            // Нельзя проверить программно, только открыть настройки
-            // Поэтому просто открываем активность, а в MedicineScheduler будем обрабатывать
         }
 
-        // Если разрешения есть (или не требуются), открываем активность
         Intent intent = new Intent(this, AddMedicineActivity.class);
         startActivityForResult(intent, REQUEST_ADD_MEDICINE);
     }

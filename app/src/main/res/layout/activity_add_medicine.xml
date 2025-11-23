@@ -110,11 +110,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="  Время не выбрано"
-                        android:textSize="16sp"
-                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:gravity="center_vertical"
                         android:padding="12dp"
+                        android:text="Время не выбрано"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:textSize="16sp"
                         app:drawableStartCompat="@drawable/ic_time" />
 
                     <com.google.android.material.button.MaterialButton

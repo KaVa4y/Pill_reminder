@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.medicineReminder">
 
-    <!-- Разрешения -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -19,7 +18,6 @@
         android:theme="@style/Theme.MedicineReminder"
         tools:targetApi="31">
 
-        <!-- Главная активность -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -29,18 +27,15 @@
             </intent-filter>
         </activity>
 
-        <!-- Новая активность для добавления напоминания -->
         <activity
             android:name=".AddMedicineActivity"
             android:exported="false" />
 
-        <!-- Receiver для обработки будильников -->
         <receiver
             android:name=".AlarmReceiver"
             android:enabled="true"
             android:exported="false" />
 
-        <!-- Receiver для автозапуска после перезагрузки -->
         <receiver
             android:name=".BootReceiver"
             android:enabled="true"
@@ -50,7 +45,6 @@
             </intent-filter>
         </receiver>
 
-        <!-- Сервис для показа уведомлений -->
         <service
             android:name=".NotificationService"
             android:enabled="true"
