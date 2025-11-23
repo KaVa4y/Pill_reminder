@@ -122,8 +122,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Выбрать"
-                        android:layout_marginStart="8dp"
-                        app:icon="@drawable/ic_time" />
+                        android:layout_marginStart="8dp" />
 
                 </LinearLayout>
 
