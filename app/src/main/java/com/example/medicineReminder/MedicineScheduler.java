@@ -28,19 +28,15 @@ public class MedicineScheduler {
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-        // Проверка разрешения на точные будильники (Android 12+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (alarmManager.canScheduleExactAlarms()) {
-                // Разрешение есть, устанавливаем точный будильник
                 alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), pendingIntent);
                 Log.d(TAG, "Точный будильник установлен на: " + time.getTime());
             } else {
-                // Разрешения нет - устанавливаем неточный будильник (может сработать с небольшой задержкой)
                 Log.w(TAG, "Точное разрешение на будильник отсутствует. Установка обычного будильника.");
                 alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), pendingIntent);
             }
         } else {
-            // Для старых версий Android
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), pendingIntent);
             } else {
@@ -62,12 +58,10 @@ public class MedicineScheduler {
         Log.d(TAG, "Будильник отменён: ID=" + notificationId);
     }
 
-    // Реализованный метод для восстановления всех будильников при загрузке
     public static void scheduleAllAlarms(Context context) {
         Log.d(TAG, "Восстановление будильников после загрузки устройства...");
         SharedPreferences sp = context.getSharedPreferences("medicines", Context.MODE_PRIVATE);
 
-        // Проходим по всем сохранённым напоминаниям
         Map<String, ?> allEntries = (Map<String, ?>) sp.getAll();
         for (String key : allEntries.keySet()) {
             if (key.startsWith("medicine_name_")) {
@@ -83,7 +77,6 @@ public class MedicineScheduler {
                         Calendar cal = Calendar.getInstance();
                         cal.setTimeInMillis(timeMillis);
 
-                        // Устанавливаем будильник
                         scheduleAlarm(context, name, dosage, cal, id);
                         Log.d(TAG, "Будильник восстановлен: " + name);
                     }

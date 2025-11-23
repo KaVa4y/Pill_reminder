@@ -109,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
                 selectedTime.set(Calendar.MINUTE, minute);
                 selectedTime.set(Calendar.SECOND, 0);
 
-                // Проверяем разрешение ещё раз перед установкой будильника
                 boolean canScheduleExact = true;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     android.app.AlarmManager alarmManager = (android.app.AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -117,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (!canScheduleExact) {
-                    // Если разрешение не получено, уведомляем пользователя
+
                     Toast.makeText(this, "Точное время напоминания может быть смещено системой", Toast.LENGTH_LONG).show();
                 }
 
@@ -126,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
 
                 saveMedicine(newItem);
-                // scheduleAlarm теперь обрабатывает разрешение внутри себя
                 MedicineScheduler.scheduleAlarm(this, name, dosage, selectedTime, newItem.getId());
 
                 Toast.makeText(this, "Напоминание добавлено!", Toast.LENGTH_SHORT).show();
@@ -134,15 +132,12 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Ошибка при добавлении напоминания", Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == REQUEST_SCHEDULE_EXACT_ALARM) {
-            // После возврата из настроек проверяем разрешение снова
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 android.app.AlarmManager alarmManager = (android.app.AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 if (alarmManager.canScheduleExactAlarms()) {
-                    // Если пользователь дал разрешение, открываем активность
                     Intent intent = new Intent(this, AddMedicineActivity.class);
                     startActivityForResult(intent, REQUEST_ADD_MEDICINE);
                 } else {
-                    // Если не дал, показываем сообщение
                     Toast.makeText(this, "Для точных напоминаний нужно разрешение на будильники", Toast.LENGTH_LONG).show();
                 }
             }
@@ -154,10 +149,8 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_POST_NOTIFICATIONS) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Разрешение на уведомления получено
                 Toast.makeText(this, "Разрешение на уведомления получено", Toast.LENGTH_SHORT).show();
             } else {
-                // Разрешение на уведомления отклонено
                 Toast.makeText(this, "Разрешение на уведомления отклонено", Toast.LENGTH_SHORT).show();
             }
         }
@@ -170,7 +163,6 @@ public class MainActivity extends AppCompatActivity {
         deleteMedicine(item);
     }
 
-    // --- Упрощённое хранение в SharedPreferences ---
     private void saveMedicine(MedicineItem item) {
         SharedPreferences sp = getSharedPreferences("medicines", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
@@ -191,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
                 cal.setTimeInMillis(timeMillis);
                 MedicineItem item = new MedicineItem(name, dosage, cal, i);
                 medicineList.add(item);
-                // scheduleAlarm теперь обрабатывает разрешение внутри себя
                 MedicineScheduler.scheduleAlarm(this, name, dosage, cal, i);
             }
         }

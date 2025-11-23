@@ -83,12 +83,8 @@ public class AddMedicineActivity extends AppCompatActivity {
             return;
         }
 
-        // Android по умолчанию поддерживает ввод кириллицы
-        // Никаких дополнительных настроек не требуется
-        // Проверим, что строка содержит кириллицу (для демонстрации)
-        // Это не обязательно, просто проверка
+
         if (!name.matches(".*[а-яА-ЯёЁ].*")) {
-            // Toast.makeText(this, "Для лучшего опыта используйте кириллицу", Toast.LENGTH_SHORT).show();
         }
 
         Intent resultIntent = new Intent();
